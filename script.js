@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const weatherInfo = document.getElementById("weather-container")
-    
     const searchBtn = document.getElementById("search-btn")
-    
-    searchBtn.addEventListener("click" , () => {
+    const myInput = document.getElementById("location")
+    const searchForm = document.getElementById("input-form")
 
-        const myInput = document.getElementById("location")
-        const inputValue = myInput.value
+    const getWeatherData = () => {
+    const inputValue = myInput.value
 
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=c2aa413be7ed80809a2c258fb40a6c43`)
             .then((response) => response.json())
@@ -29,7 +28,17 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch((error) => console.log("error"))
     
         myInput.value = '';
+    }
+    //This connects the submit button to the weather API fetching
+    searchBtn.addEventListener("click" , getWeatherData)
+    //This connects the Enter key to weather API fetching
+    searchForm.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault(); //This is to prevent default form submission
+            getWeatherData();
+        }
     })
-
+        
+    
     
 })
